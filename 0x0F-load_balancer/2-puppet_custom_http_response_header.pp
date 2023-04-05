@@ -1,21 +1,25 @@
 #!/usr/bin/env bash
-#Install and configure an Nginx server using Puppet
+# Installs Nginx Listens on port 80.
+# Returns a page containing "Hello World!".
+# contains a custom HTTP header named X-Served-By.
+# set to the hostname of the running server.
 
 !/usr/bin/env bash
 #Install and configure an Nginx server using Puppet
 
 $doc_root = '/etc/nginx/html'
 $str = "server {
-    listen 80;
+    listen 80 default_server;
     listen [::]:80 default_server;
-    root   /etc/nginx/html;
+    add_header X-Served-By '${HOSTNAME}';
+    root   /var/www/html;
     index  index.html index.htm;
     location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4/;
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
     }
     error_page 404 /404.html;
     location /404 {
-      root /etc/nginx/html;
+      root /var/www/html;
       internal;
     }
 }"
