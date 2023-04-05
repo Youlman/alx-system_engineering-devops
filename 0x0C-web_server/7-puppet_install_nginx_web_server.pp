@@ -49,7 +49,7 @@ file { "${doc_root}/404.html":
 
 file { '/etc/nginx/sites-available/default':
   ensure  => 'present',
-  content => $str,
+  content => ${str},
   notify  => Service['nginx'],
   require => Package['nginx']
 }

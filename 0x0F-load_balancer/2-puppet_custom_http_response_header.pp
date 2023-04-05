@@ -4,9 +4,6 @@
 # contains a custom HTTP header named X-Served-By.
 # set to the hostname of the running server.
 
-!/usr/bin/env bash
-#Install and configure an Nginx server using Puppet
-
 $doc_root = '/etc/nginx/html'
 $str = "server {
     listen 80 default_server;
@@ -53,7 +50,7 @@ file { "${doc_root}/404.html":
 
 file { '/etc/nginx/sites-available/default':
   ensure  => 'present',
-  content => $str,
+  content => ${str},
   notify  => Service['nginx'],
   require => Package['nginx']
 }
