@@ -3,8 +3,7 @@
 #nginx must be running as nginx user
 #nginx must be listening on all active IPs on port 8080
 
-sed -i 's/\tlisten 80 default_server;/\tlisten 8080 default_server;/' /etc/nginx/sites-available/default
-sed -i 's/^\tlisten \[::\]:80 default_server ipv6only=on;/\tlisten \[::\]:8080 default_server ipv6only=on;/' /etc/nginx/sites-available/default
+sed -i 's/80 default_server/8080 default_server/g' /etc/nginx/sites-available/default
 pkill apache2
 chmod u+rwx /etc/nginx/nginx.conf
 chown nginx:nginx /etc/nginx/nginx.conf
