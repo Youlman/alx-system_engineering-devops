@@ -1,4 +1,5 @@
 ## 500 Internal Server Error Postmortem ##
+![alt text](https://github.com/Youlman/alx-system_engineering-devops/blob/master/0x19-postmortem/brainstorming.jpg)
 ### Issue Summary: ###
 Between 10:00 AM and 11:20 AM (UTC), any requests sent to Web stack debugging WordPress server instances led to a 500 error response. This problem impacted the entire system's traffic, completely preventing access to any web content. The main reason behind this issue was a typo in the configuration files of the WordPress stack, resulting in an error when attempting to serve any response due to a nonexistent file.
 
@@ -29,14 +30,14 @@ By 10:50 AM UTC -05:00, the team rectified the typo in the "/var/www/html/wp-set
 
 Finally, by 11:00 AM UTC a puppet script was developed to address any potential failures in other parts of the server and was deployed across all system instances.
 
-At 11:30 AM UTC -05:00, the system regained 100% operational status, with all traffic functioning smoothly.
+At 11:30 AM UTC, the system regained 100% operational status, with all traffic functioning smoothly.
 
 ### Corrective and preventative measures ###
 
 Following the resolution of the issue, I conducted an analysis to identify measures that could enhance response and prevent similar problems in the future. The following actions are currently being implemented:
 
-	* Disabling the existing configuration release mechanism and implementing a CI (Continuous Integration) deployment mechanism that includes thorough testing throughout the implementation process for every new change.
-	* Enabling comprehensive error logging on the PHP service, which is typically deactivated by default, to capture detailed information for troubleshooting.
-	* Developing Puppet templates that can be swiftly implemented to address various server errors, such as executing bash code, updating deprecated software, or modifying lines in files.
+	- Disabling the existing configuration release mechanism and implementing a CI (Continuous Integration) deployment mechanism that includes thorough testing throughout the implementation process for every new change.
+	- Enabling comprehensive error logging on the PHP service, which is typically deactivated by default, to capture detailed information for troubleshooting.
+	- Developing Puppet templates that can be swiftly implemented to address various server errors, such as executing bash code, updating deprecated software, or modifying lines in files.
 These actions aim to bolster response capabilities and proactively mitigate potential issues, ensuring a more robust and efficient system moving forward.
 
