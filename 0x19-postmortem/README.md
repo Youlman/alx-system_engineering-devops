@@ -1,8 +1,8 @@
-500 Internal Server Error Postmortem
-Issue Summary:
+## 500 Internal Server Error Postmortem ##
+### Issue Summary: ###
 Between 10:00 AM and 11:20 AM (UTC), any requests sent to Web stack debugging WordPress server instances led to a 500 error response. This problem impacted the entire system's traffic, completely preventing access to any web content. The main reason behind this issue was a typo in the configuration files of the WordPress stack, resulting in an error when attempting to serve any response due to a nonexistent file.
 
-Timeline (all times UTC)
+### Timeline (all times UTC) ###
 10:00 AM: Commencement of configuration push
 10:03 AM: Onset of outage
 10:04 AM: I were alerted when I want access to web page
@@ -13,7 +13,7 @@ Timeline (all times UTC)
 10:50 AM: Typo rectified and multiple request tests conducted, resulting in successful 200 responses from the running server
 11:00 AM: Creation of a puppet script for efficient resolution of the issue across all other server instances
 11:30 AM: Testing of all instances completed, with successful responses observed for all requests made. Traffic fully restored, reaching 100% online status.
-Root cause:
+### Root cause: ###
 At 10:00 AM UTC, a configuration change was to the branch of WordPress Server without undergoing prior testing in the development environment. This change aimed to incorporate new PHP files for optimising dynamic functions on the server's landing page. As part of this update, the WordPress configuration needed to be modified to specify the paths of these new files. Unfortunately, one of the paths contained a typographical error, resulting in the server encountered an ENOENT (No such file or directory) error. This error disrupted the response operations of the system across all server instances.
 Despite the issue, the Apache service remained functional, and no error logs were recorded for this process. The PHP configuration was set to its default state, which meant that Internal Server Errors were not being logged by PHP.
 Resolution and Recovery:
@@ -31,12 +31,12 @@ Finally, by 11:00 AM UTC a puppet script was developed to address any potential 
 
 At 11:30 AM UTC -05:00, the system regained 100% operational status, with all traffic functioning smoothly.
 
-Corrective and preventative measures 
+### Corrective and preventative measures ###
 
 Following the resolution of the issue, I conducted an analysis to identify measures that could enhance response and prevent similar problems in the future. The following actions are currently being implemented:
 
-Disabling the existing configuration release mechanism and implementing a CI (Continuous Integration) deployment mechanism that includes thorough testing throughout the implementation process for every new change.
-Enabling comprehensive error logging on the PHP service, which is typically deactivated by default, to capture detailed information for troubleshooting.
-Developing Puppet templates that can be swiftly implemented to address various server errors, such as executing bash code, updating deprecated software, or modifying lines in files.
+	* Disabling the existing configuration release mechanism and implementing a CI (Continuous Integration) deployment mechanism that includes thorough testing throughout the implementation process for every new change.
+	* Enabling comprehensive error logging on the PHP service, which is typically deactivated by default, to capture detailed information for troubleshooting.
+	* Developing Puppet templates that can be swiftly implemented to address various server errors, such as executing bash code, updating deprecated software, or modifying lines in files.
 These actions aim to bolster response capabilities and proactively mitigate potential issues, ensuring a more robust and efficient system moving forward.
 
